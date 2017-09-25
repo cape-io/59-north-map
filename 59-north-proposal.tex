@@ -1,0 +1,211 @@
+
+\documentclass[11pt]{article}
+\usepackage{softwarespec}
+\projectname{Lifting Bridges}
+
+\title{Project Specification for 59-north.com Mapbox integration}
+
+\author{Jordan Bettis}
+
+\date{\today{}}
+\documentnumber{59-NORTH-01}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+\def\theclientprinciple{Andy Schell}
+\def\theclient{59-North LLC}
+\def\theclientaddress{1169 Hilltop Rd.\\Leesport, PA 19533}
+
+\section{Introduction}
+
+The goal of this project is to enable employees of \theclient{} to add
+dynamic maps on 59-North.com, with custom route and destination
+annotations, when creating or editing trip pages in the squarespace
+admin.
+
+This is to replace an existing workflow in which custom static image
+assets are created for each trip, and to make the trip page visuals
+more interactive.
+
+\subsection{Deliverables}
+
+\begin{description}
+
+\item[Custom Map Design] A customization of the Mapbox \emph{North
+  Star} map theme using a color palette complementary to that on 59-north.com.
+
+\item[Custom Squarespace Theme] A custom variation of the \emph{SHIFT}
+  template from Squarespace, that supports activation of a Mapbox map
+  when the approprate data is included in a \texttt{code} block.
+
+\item[Training and Assistance] Training on how to use the code block,
+  format map path information into the JSON format, and make required
+  changes to the Mapbox and Squarespace accounts.
+
+
+\end{description}
+
+\section{Components}
+
+\subsection{Custom Map Design}
+
+The Mapbox \emph{North Star} theme includes bathymetric features and
+nautical styling. The default color scheme does not match the color
+scheme of 59-north.com. The provider will modify the color scheme of
+the \emph{North Star} theme, using the existing color scheme of 59-north.com.
+
+\emph{This component will cost \$240.00}
+
+\subsection{Custom Squarespace Theme}
+
+When a map is embeded in a website, a variety of metadata must be
+provided to the embedded widget including:
+
+\begin{itemize}
+
+\item widget size and placement,
+\item map coordinate centroid and zoom level, and
+\item path and point data for dynamic map features.
+  
+\end{itemize}
+
+The contractor will modify the \emph{SHIFT} theme to include logic to
+handle size and placement, as well as to minimize the amount of code
+that will need to be provided through the squarespace admin to set
+centroid, zoom, and path and point data.
+
+Dynamic map features include custom path elements the client can
+use to draw the boat's route along each leg of a trip, and custom point
+elements that the client can use for destinations and ports-of-call.
+The points will be clickable and the client will be able to include
+custom text that will appear in map popup elements when clicked.
+
+This component will also include the creation of sample code for the
+snippet that must be provided through the squarespace admin.
+
+\emph{This component will cost \$1280.00}
+
+\subsection{Training and Assistance}
+
+The contractor will provide 6 hours of assistence and training to the
+client in order to insure that they can successfully:
+
+\begin{itemize}
+
+\item activate the modified map theme in their mapbox account,
+\item activate the custom site theme in their squarespace account,
+\item format trip information into structured point and path data using the JSON format, and
+\item include them in the code snippet to activate the map and required dynamic features.
+
+\end{itemize}
+
+Training will include communications by telephone, screen share, and
+possibly email.
+
+\emph{This component will cost \$480.00}
+
+\section{Business Relationship}
+
+\subsection{Definitions}
+\label{definitions}
+
+\begin{description}
+
+\item[Lifting Bridges, Ltd] An Illinois S-Corporation. All references
+  to ``Lifting Bridges,'' ``the Provider'' or ``the Contractor'' in
+  this document shall refer to Lifting Bridges, Ltd.
+
+\item[\theclient] The organization commissioning the development of
+  the project. All references to ``the Client'' in this document shall
+  refer to \theclient.
+
+\item[Mapbox Inc] A third-party service provider.
+
+\item[Squarespace Inc] A third-party service provider.
+
+\end{description}
+
+\subsection{Intellectual Property}
+
+Any inventions, discoveries, developments or innovations conceived by
+the provider directly in the course of fulfilling this contract shall
+become the property of the client upon receipt of full payment of the
+applicable invoice to the provider.
+
+However, any inventions, discoveries, developments or innovations
+conceived by the provider prior to, subsequent to, or during the term of
+the contract, not conceived directly in the course of fulfilling the
+contract, shall remain the property of the provider, the provider's
+successors, or the provider's assigns.
+
+\subsection{Payment}
+
+Payment shall be provided in-kind (\$2000.00 discount on services
+provided by \theclient).
+
+\subsection{Billing Terms}
+
+The client shall make full payment of each invoice within fifteen days
+of the issue date. 
+
+Payment may be made by any legal negotiable instrument at the
+convenience of the client, provided that instrument has the value
+prescribed in this document at point when it is converted by the
+provider.
+
+\subsection{Successors}
+
+All provisions of this contract shall be binding upon the successors or
+assigns of both parties.
+
+\subsection{Third Party Services}
+
+The business relationship with all third-party service providers or
+subcontractors are the sole responsiblity of \theclient. Lifting
+Bridges Ltd does not warrantee any service or goods provided by
+third party providers nor does the provider offer any indemnefication
+for losses resulting from the actions of third party providers.
+
+\subsection{Venue}
+
+Both parties shall agree to hold any action concerning breach of this
+agreement in the Circuit Court of Cook County, Illinois, or the United
+States District Court of Northern Illinois, Eastern Division. The
+validity of the agreement shall be governed by the laws of the State
+of Illinois without regard to any applicable conflicts-of-laws rules.
+
+\subsection{Severability}
+
+Should any part of this agreement be found illegal, invalid, or
+unenforceable the remainder of the agreement shall remain in full force
+and effect.
+
+\newpage
+\section{Counterpart Signatures}
+
+This agreement must be signed by the representative of both the
+provider and the client. Electronic facsimiles shall be treated as
+original signatures.
+
+\vspace{2in}
+\hspace{-.25in}\rule{3.5in}{.2mm} Date: \rule{1.5in}{.2mm}\\
+\vspace{0.2em}
+Jordan Bettis\\
+Lifting Bridges Ltd\\
+PO Box 471388\\
+Chicago, IL 60647\\
+(312) 628-5508
+
+\vspace{2in}
+\hspace{-.25in}\rule{3.5in}{.2mm} Date: \rule{1.5in}{.2mm}\\
+\vspace{0.2em}
+\theclientprinciple\\
+\theclient\\
+\theclientaddress{}
+
+\end{document}

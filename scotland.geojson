@@ -1,0 +1,111 @@
+﻿{
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "title": "Orkney Islands",
+                "description": "An archipelago in the Northern Islands of Scotland",
+                "noonsite": "http://www.noonsite.com/Countries/UnitedKingdom",
+                "wikipedia": "https://en.wikipedia.org/wiki/Orkney"
+            },
+            "geometry": {
+                "coordinates": [
+                    -2.966778,
+                    58.984763
+                ],
+                "type": "Point"
+            },
+            "id": "0b4b07ee5febada8de9da7b0511bb467"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "title": "Smögen",
+                "description": "One of the liveliest \"summer towns\" of the Swedish west coast.",
+                "noonsite": "http://www.noonsite.com/Countries/Sweden",
+                "wikipedia": "https://en.wikipedia.org/wiki/Sm%C3%B6gen"
+            },
+            "geometry": {
+                "coordinates": [
+                    11.226264,
+                    58.352655
+                ],
+                "type": "Point"
+            },
+            "id": "2c7de8f4a112d99beb588abec4f23fbb"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "link": "https://www.59-north.com/arctic-passages/2018/5/1/1-smogen-sweden-orkney-scotland"
+            },
+            "geometry": {
+                "coordinates": [
+                    [
+                        11.226275,
+                        58.352644
+                    ],
+                    [
+                        11.235373,
+                        58.34823
+                    ],
+                    [
+                        11.237433,
+                        58.340753
+                    ],
+                    [
+                        11.23091,
+                        58.335887
+                    ],
+                    [
+                        11.21031,
+                        58.32372
+                    ],
+                    [
+                        8.309576,
+                        57.344017
+                    ],
+                    [
+                        6.310065,
+                        56.818624
+                    ],
+                    [
+                        4.002936,
+                        56.553129
+                    ],
+                    [
+                        1.827643,
+                        56.770491
+                    ],
+                    [
+                        -0.204827,
+                        57.503787
+                    ],
+                    [
+                        -1.63305,
+                        58.303256
+                    ],
+                    [
+                        -2.652032,
+                        58.98657
+                    ],
+                    [
+                        -2.861378,
+                        59.017872
+                    ],
+                    [
+                        -2.956741,
+                        59.015935
+                    ],
+                    [
+                        -2.965667,
+                        58.984083
+                    ]
+                ],
+                "type": "LineString"
+            },
+            "id": "975d7c24cae021f92fc7b4dc7b98c13d"
+        }
+    ],
+    "type": "FeatureCollection"
+}

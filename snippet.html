@@ -1,0 +1,13 @@
+<div id="five-nine-north-map" style="width: 990px; height:564px;"></div>
+<script>
+  (function () {
+      var map = new FiveNineNorthMap(mapboxgl, {
+          container: 'five-nine-north-map',
+          data: mapData,
+          style: 'REPLACE THIS WITH YOUR STYLE URL (will be mapbox://styles/something/something)',
+          token: 'REPLACE THIS WITH YOUR ACCESS TOKEN'
+      });
+      var mapData = {'REPLACE THIS': 'WITH YOUR GEOJSON'};
+      map.makeMap(mapData);
+  })();
+</script>

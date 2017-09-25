@@ -1,0 +1,304 @@
+
+\documentclass[11pt]{article}
+\usepackage{softwarespec}
+\projectname{Lifting Bridges}
+
+\title{59-north.com Mapbox Integration Usage Manual}
+
+\author{Jordan Bettis}
+
+\date{\today{}}
+\documentnumber{59-NORTH-02}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section{Mapbox Account Changes}
+
+\subsection{Install the Style in your Mapbox account}
+
+Log into your mapbox account.
+
+\begin{enumerate}
+\item Choose the \texttt{Styles} page in the left menu.
+\item Click the \texttt{New Style} button in the header.
+\item Click \texttt{Upload a Style} in the top right of the popup.
+\item Click on \texttt{Select a file}.
+\item Choose \texttt{style/style.json} from the repository.
+
+\end{enumerate}
+
+You will now find yourself in the style editor viewing the style you
+just uploaded. Look to the top left of the window. There is a button
+titled \texttt{Publish} and a button to the right of it with an arrow
+pointing up and to the right, with the tool tip \emph{View Style
+  Details}. Press that button.
+
+Now look for the ``Style URL'' in the right column. Make a note of
+this. \emph{You will need this URL later.}
+
+\label{style-url}
+
+\subsection{Get an Access Token}
+
+Click on \texttt{Home} in the left navigation menu, then click on
+\texttt{My access tokens}. There should be a Default Public Token. If
+there is, make a note of it. If there is not click \texttt{Create a
+  new token}. Make sure all the checkmarks are checked in the
+\texttt{Public Scopes} section.
+
+Make a note of the token. You will also need this later.
+
+\label{access}
+
+\section{Setup on Squarespace}
+
+\subsection{Add the Header Code Injection}
+
+The project proposal specified a customization of your template to
+inject the custom code needed to initialize the map on your
+site. While working on the project, I became concerned that this
+method would impact the future upgradability of your site. You would
+be unable to upgrade or change your theme in the future because you
+would be ``pegged'' to the customized them I would have created.
+
+I decided to look for other ways to inject the custom code I wrote
+into your site. I found that Squarespace has an advanced code
+header/footer injection feature for commercial sites. I therefore
+built the custom script so that it can be integrated using this
+feature.
+
+The custom code is available in this repository as
+\texttt{createMap.js} but you won't actually need that file. I have
+also provided a compressed version of the file---embedded in some
+HTML---in the \texttt{header-code-injection.html} file.
+
+You will need to open this file in a text editor. If you don't know
+how to do that, see the appendix (Section \ref{texteditor}).
+
+In your squarespace admin:
+
+\begin{enumerate}
+\item Click on \texttt{Settings} in the left sidebar.
+\item Click on the last item under \texttt{Website}, labeled \texttt{Advanced}.
+\item Click on the \texttt{Code Injection} option.
+\item Copy the contents of the \texttt{header-code-injection.html}
+  file and paste it into the \texttt{Header} input box.
+\item Click \texttt{Save} in the top left. 
+\end{enumerate}
+
+Your squarespace site is now setup to load maps from Mapbox.
+
+\section{Create a Map}
+
+\subsection{GeoJSON}
+
+Mapbox uses the GeoJSON\footnote{http://geojson.org} format to
+represent map data. JSON\footnote{http://json.org} stands for
+JavaScript Object Notation. It is a structured text format. Structured
+text is a way to represent data that is easy for both humans and
+computers to understand. GeoJSON, therefore, is geospatial data
+represented as structured text using the JSON standard.
+
+I have included the GeoJSON I used to create the map from Sweden to
+Scotland in the \texttt{scotland.geojson} file. It's worth taking a
+careful look at it. Below, I'm going to show how to use a tool
+provided by Mapbox to create these files, but it will be useful to
+understand the structure of the files.
+
+The Scotland file contains two \emph{Points} and a multi-segment
+\emph{LineString}. The points represent destinations and the line
+string represents the path between the destinations.
+
+One thing worth noting is that the coordinates are specified as
+latitude/longitude pairs, but that the order is reversed. \emph{In
+  GeoJSON, the longitude is always specified first, then the
+  latitude.} Each point has just one coordinate, but the multi-line
+has an array of points. I started the line in the east progressing
+west, so you'll notice a monotonically declining longitude.
+
+Of particular importance is properties attached to each
+feature. Consider the list of properties attached to the Orkney
+Islands point:
+
+\begin{verbatim}
+
+    "properties": {
+        "title": "Orkney Islands",
+        "description": "An archipelago in the Northern Islands of Scotland",
+        "noonsite": "http://www.noonsite.com/Countries/UnitedKingdom",
+        "wikipedia": "https://en.wikipedia.org/wiki/Orkney"
+    },
+\end{verbatim}
+
+\emph{The \texttt{title} field is required.} Each point \emph{must}
+have a title. The description is an optional text field, it should be
+a sentence giving some more detail about the destination.
+
+You can add an arbitrary number of additional properties. In this
+example I added ``noonsite'' and ``wikipedia.'' Each additional
+property, in addition to \texttt{title} and \texttt{description}, is
+assumed to be a link, with the key as a link title and the value as
+the URL. These will be displayed in the popup, below the description.
+
+The properties for a line string are much more limited:
+
+\begin{verbatim}
+    "properties": {
+        "link": "https://www.59-north.com/arctic-passages/2018/
+5/1/1-smogen-sweden-orkney-scotland"
+    },
+\end{verbatim}
+
+There is only one property, named \texttt{link}. The value should be a
+URL to the sign up page.
+
+One last observation about this GeoJSON file: note that each feature
+has an \texttt{id} field. The only requirement for this field is one
+must exist for each feature and its value must be unique in the
+document.
+
+\subsection{Using Mapbox to create GeoJSON files}
+
+\label{geojson}
+
+Mapbox has a data editor that you can use to build GeoJSON documents
+by using drawing tools. Go to your Mapbox account and select
+\texttt{Datasets} in the left nav menu. Then click \texttt{New
+  dataset}. You'll be asked to give the dataset a name. Choose
+something sensible.
+
+You'll now see the data editor console. A very useful feature is the
+ability to search the map for locations. For instance, I'd like to
+make a map of a route from Chicago to Muskegon Michigan. I start by
+going to the top right sidebar and typing ``Chicago'' into the
+\texttt{Search places} input box. This zooms and pans the map to
+Chicago. I zoom in a little bit to see Monroe Harbor.
+
+Near the top of the left sidebar is a button with an upside-down
+teardrop on it. This is the ``Point'' tool. I click on it and then add
+a point by left-clicking in Monroe Harbor. After I add the point, the
+left sidebar switches to property editor. The point must have a title,
+so I take care of that first, clicking \texttt{Add new}. I type
+``title'' in the \texttt{field} input box and write ``Chicago'' in the
+\texttt{value} input, and then click \texttt{Confirm}.
+
+The title is the only required field, but you can do the same for
+\texttt{description} and any other field. Of important note is that
+\texttt{title} and \texttt{description} must be lower-case. The same
+is true for \texttt{link} on the line string.
+
+I now need to draw a line-string from Chicago to Muskegon. I click the
+icon that looks like a barbell to the right of the point
+teardrop. Then I left-click on the map near the point I added, and
+then continue left-clicking to show the path out of the harbor. Once
+my line string gets to open water, I want to get a zoomed-out view so
+I press the minus key ``-'' several times. I can also use the arrow
+keys on the keyboard to pan without risking adding accidental
+segments.
+
+When the line gets to Muskegon I zoom back in by pressing the equals
+``='' key on the keyboard. I double click to add the last point in
+Muskegon Harbor to end the path.
+
+Each path needs a \texttt{link} property. That is added as
+above. After adding another point for Muskegon I am now ready to
+download the GeoJSON.
+
+To do this, click the \texttt{Save} button on the top of the left
+sidebar. Then \texttt{View dataset details} below the export
+button. You will not need to use the export button.
+
+Now click the \texttt{Download as GeoJSON} link in the right
+sidebar. Save the file to your hard drive.
+
+\subsection{Adding a Map to a Squarespace Page}
+
+Now it all comes together. You have:
+
+\begin{itemize}
+\item Your style URL (Section \ref{style-url}).
+\item Your access token (Section \ref{access}).
+\item The GeoJSON file (Section \ref{geojson}).
+\item The HTML snippet code in the \texttt{snippet.html} file.
+
+\end{itemize}
+
+Add a \texttt{code} block to the Squarespace page where you want the
+map to appear. Copy and paste the contents of \texttt{snippet.html}
+into the input. Make sure the type is ``HTML'' and the \texttt{Display
+  Source} checkbox is \emph{unchecked}.
+
+Copy and paste your style URL into the snippet replacing the text
+``REPLACE THIS WITH YOUR STYLE URL (will be
+mapbox://styles/something/something)''. Be sure to preserve the quote
+marks around it. For me, the resulting line looks like this:
+
+\begin{verbatim}
+
+    style: 'mapbox://styles/jordanb/cj7zhvf336t2u2rlmc0zyt82f',
+  
+\end{verbatim}
+
+Do the same with the token, again, preserving the quote marks around it.
+
+Next you need to open the downloaded JSON document in your text
+editor. Copy the \emph{entire} file and paste it into the snippet,
+replacing the value:
+
+\begin{verbatim}
+
+    {'REPLACE THIS': 'WITH YOUR GEOJSON'}
+
+\end{verbatim}
+
+Note that the GeoJSON must \emph{not} be in quotes, unlike the URL and
+access token. The line will look something like this:
+
+\begin{verbatim}
+
+    var mapData = {
+      "features": [
+        {
+          "type": "Feature",
+====== LOTS OF OMITTED LINES OF CODE ======
+        }
+      ]
+    };
+
+\end{verbatim}
+
+Once you've done this, you can save the page. You're done! You
+probably won't be able to view the map while logged-in due to security
+restrictions, but you can see the map by opening a private/incognito
+browsing window and viewing the page with it.
+
+If you have any trouble or if anything is unclear please reach out to
+me.
+
+\appendix
+
+\section{Text Editor}
+\label{texteditor}
+
+You must use a text editor to open any of the downloaded files,
+including \texttt{snippet.html}, \texttt{header-code-injection.html}
+or any of your downloaded GeoJSON documents. On Windows, you can use
+\texttt{Notepad}. On a Mac, things are more tricky. You can use the
+\texttt{TextEdit} program, but it \emph{must be in plain-text
+  mode}. You'll have to lookup how to do that.
+
+If you can't get TextEdit working, you can also download or buy a text
+editor. Some examples are \texttt{Atom}, \texttt{Sublime Text}, or
+\texttt{TextMate}.
+
+If you're having difficulty opening a file in a text editor, you may
+want to try changing the file's extension to ``.txt''. So for
+instance, \texttt{snippet.html} would become \texttt{snippet.txt}.
+
+
+\end{document}
