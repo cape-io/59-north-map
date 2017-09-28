@@ -3,17 +3,22 @@ var FiveNineNorthMap = function(mbx, options) {
     this.makeMap = function(data) {
         mbx.accessToken = options.token;
         var bounds = getBounds(data);
-        this.map = new mbx.Map({
+        var init = {
             'container': options.container,
             'style': options.style,
-            'center': bounds.centroid
-            
-        });
+            'center': options.centroid || bounds.centroid,
+        };
+        if(typeof options.zoom !== 'undefined' && options.zoom !== null) {
+            init.zoom = options.zoom;
+        }
+        this.map = new mbx.Map(init);
         var map = this.map
         this.map.on('load', function() {
             addLines(map, data);
             addPoints(map, data);
-            map.fitBounds(bounds.bounds, {'padding': 200});
+            if(typeof init.zoom === 'undefined') {
+                map.fitBounds(bounds.bounds, {'padding': 200});
+            }
         });
         this.map.on('click', function(e) {
             var points = map.queryRenderedFeatures(e.point, {
@@ -40,10 +45,10 @@ var FiveNineNorthMap = function(mbx, options) {
         if(point.properties.description) {
             html += '<p>' + point.properties.description + '</p>';
         }
-        var links = []
+        var links = [];
         for (var prop in point.properties) {
             if(point.properties.hasOwnProperty(prop)
-               && prop !== "title" && prop !== "description") {
+               && prop !== "title" && prop !== "description" && prop !== "type") {
                 links.push([prop, point.properties[prop]]);
             }   
         }
@@ -59,66 +64,71 @@ var FiveNineNorthMap = function(mbx, options) {
             .setHTML(html)
             .setLngLat(point.geometry.coordinates).addTo(map);
     }
-
-    var addPoints = function(map, data) {
+    
+    var addPointLayer = function(map, data, name, layoutOptions) {
         var points = data.features.filter(function(x) {
-            return x.geometry.type === 'Point';
+            return (x.geometry.type === 'Point' && x.properties.type === name);
         });
-        map.addSource('fnnPoints', {
+        
+        var sourceName = "fnnPoints" + name;
+        var layerName = "fnnPointsLayer" + name;
+        var layout = {
+            'text-field': '{title}',
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [1,6], [3,8], [6,12], [14,20]
+                ]
+            },
+            'text-padding': 1,
+            'visibility': 'visible',
+            'text-offset': [-1, 0.1 ],
+            'text-rotation-alignment': 'viewport',
+            'text-anchor': 'right',
+            'text-rotate': 0,
+            'text-letter-spacing': 0.2,
+            'icon-padding': 1,
+            'text-max-width': 18
+        };
+        
+        for (var opt in layoutOptions) {
+            if(layoutOptions.hasOwnProperty(opt)) {
+               layout[opt] = layoutOptions[opt];
+            }
+        }
+        map.addSource(sourceName, {
             'type': 'geojson',
             'data': {'type': 'FeatureCollection',
                      'features': points
                     }
         });
         map.addLayer({
-            'id': 'fnnPointLayer',
+            'id': layerName,
             'type': 'symbol',
-            'source': 'fnnPoints',
-            'layout': {
-                'text-field': '{title}',
-                "text-size": {
-                    "base": 1,
-                    "stops": [
-                        [1,6],
-                        [3,8],
-                        [6,12],
-                        [14,20]
-                    ]
-                },
-                'icon-image': 'port-8',
-                'text-font': [
-                    'Open Sans Bold',
-                    'Arial Unicode MS Regular'
-                ],
-                'text-padding': 1,
-                'visibility': 'visible',
-                'text-offset': [
-                    -1,
-                    0.1
-                ],
-                'text-rotation-alignment': 'viewport',
-                'text-anchor': 'right',
-                'text-rotate': 0,
-                'text-letter-spacing': 0.2,
-                'icon-padding': 1,
-                'text-max-width': 18,
-                'text-transform': 'uppercase'
-            },
+            'source': sourceName,
+            'layout': layout,
             'paint': {
-                'text-color': '#e7cc0b',
+                'text-color': '#ffffff',
                 'text-halo-color': 'hsl(206, 50%, 40%)',
                 'text-halo-width': 1
             }
         });
+
+    }
         
-            
+    var addPoints = function(map, data) {
+        var italicFont = ["Open Sans Bold Italic", "Arial Unicode MS Regular"];
+        var regularFont = ["Open Sans Bold", "Arial Unicode MS Regular"];
+        
+        addPointLayer(map, data, 'primary-port', {'text-font': regularFont, 'text-transform': 'uppercase', "icon-image": "port-8"});
+        addPointLayer(map, data, 'secondary-port', {'text-font': regularFont, "icon-image": "port-8"});
+        addPointLayer(map, data, 'route', {'text-font': italicFont});
     };
 
     var addLines = function(map, data) {
         var lines = data.features.filter(function(x) {
             return x.geometry.type === 'LineString';
         });
-        console.log(lines);
         map.addSource('fnnLines', {
             'type': 'geojson',
             'data': {'type': 'FeatureCollection',
@@ -158,8 +168,8 @@ var FiveNineNorthMap = function(mbx, options) {
                 f.geometry.coordinates.map(updateCoords)
             }
         })
-        cLon = (eLon - wLon) / 2 + wLon;
-        cLat = (nLat - sLat) / 2 + sLat;
+        var cLon = (eLon - wLon) / 2 + wLon;
+        var cLat = (nLat - sLat) / 2 + sLat;
         
         return {'bounds': [wLon, sLat, eLon, nLat],
                 'centroid': [cLon, cLat]};
