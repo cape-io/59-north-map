@@ -38,9 +38,21 @@ var FiveNineNorthMap = function(mbx, options) {
                 }
             }
         });
+        addCursorEvents(map, pointLayerName('primary-port'));
+        addCursorEvents(map, pointLayerName('secondary-port'));
+        addCursorEvents(map, pointLayerName('route'));
+        addCursorEvents(map, 'fnnLineLayer');
             
     }.bind(this);
 
+    var addCursorEvents = function(map, layerName) {
+        map.on('mouseenter', layerName, function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', layerName, function(e) {
+            map.getCanvas().style.cursor = '';
+        });
+    }         
 
     var addPopup = function(map, point) {
         var html = '<h3>' + point.properties.title + '</h3>';
