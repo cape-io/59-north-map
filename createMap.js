@@ -17,12 +17,14 @@ var FiveNineNorthMap = function(mbx, options) {
             addLines(map, data);
             addPoints(map, data);
             if(typeof init.zoom === 'undefined') {
-                map.fitBounds(bounds.bounds, {'padding': 200});
+                map.fitBounds(bounds.bounds, {'padding': options.padding || 20});
             }
         });
         this.map.on('click', function(e) {
             var points = map.queryRenderedFeatures(e.point, {
-                layers: ['fnnPointLayer']});
+                layers: [pointLayerName('primary-port'),
+                         pointLayerName('secondary-port'),
+                         pointLayerName('route')]});
             if(points.length) {
                 addPopup(map, points[0])
             }
@@ -64,14 +66,22 @@ var FiveNineNorthMap = function(mbx, options) {
             .setHTML(html)
             .setLngLat(point.geometry.coordinates).addTo(map);
     }
+
+    var pointLayerName = function(name) {
+        return "fnnPointsLayer" + name;
+    }
+
+    var pointSourceName = function(name) {
+        return "fnnPoints" + name;
+    }
     
     var addPointLayer = function(map, data, name, layoutOptions) {
         var points = data.features.filter(function(x) {
             return (x.geometry.type === 'Point' && x.properties.type === name);
         });
         
-        var sourceName = "fnnPoints" + name;
-        var layerName = "fnnPointsLayer" + name;
+        var sourceName = pointSourceName(name);
+        var layerName = pointLayerName(name);
         var layout = {
             'text-field': '{title}',
             "text-size": {
