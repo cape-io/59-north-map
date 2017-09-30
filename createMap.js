@@ -8,11 +8,13 @@ var FiveNineNorthMap = function(mbx, options) {
             'style': options.style,
             'center': options.centroid || bounds.centroid,
         };
+
         if(typeof options.zoom !== 'undefined' && options.zoom !== null) {
             init.zoom = options.zoom;
         }
         this.map = new mbx.Map(init);
-        var map = this.map
+        var map = this.map;
+        map.addControl(new mbx.FullscreenControl());
         this.map.on('load', function() {
             addLines(map, data);
             addPoints(map, data);
@@ -29,7 +31,7 @@ var FiveNineNorthMap = function(mbx, options) {
                 addPopup(map, points[0])
             }
             var lines = map.queryRenderedFeatures(e.point, {
-                layers: ['fnnLineLayer']
+                layers: ['fnnLineLayer', 'fnnLineLabelLayer']
             });
             if(lines.length) {
                 if(lines[0].properties.link) {
@@ -42,8 +44,12 @@ var FiveNineNorthMap = function(mbx, options) {
         addCursorEvents(map, pointLayerName('secondary-port'));
         addCursorEvents(map, pointLayerName('route'));
         addCursorEvents(map, 'fnnLineLayer');
+        addCursorEvents(map, 'fnnLineLabelLayer');
             
     }.bind(this);
+
+    var italicFont = ["DIN Offc Pro Cond Medium Italic", "Arial Unicode MS Regular"];
+    var regularFont = ["DIN Offc Pro Cond Medium", "Arial Unicode MS Regular"];
 
     var addCursorEvents = function(map, layerName) {
         map.on('mouseenter', layerName, function(e) {
@@ -55,7 +61,7 @@ var FiveNineNorthMap = function(mbx, options) {
     }         
 
     var addPopup = function(map, point) {
-        var html = '<h3>' + point.properties.title + '</h3>';
+        var html = '<div style="max-width: 400px"><h3>' + point.properties.title + '</h3>';
         if(point.properties.description) {
             html += '<p>' + point.properties.description + '</p>';
         }
@@ -69,10 +75,11 @@ var FiveNineNorthMap = function(mbx, options) {
         if(links.length) {
             html += "<ul>";
             links.map(function(l) {
-                html += '<li><a href="' + l[1] + '" target="_blank">' + l[0] + '</a></li>';
+                html += '<li><h3><a href="' + l[1] + '" target="_blank">' + l[0] + '</a></h3></li>';
             });
             html += "</ul>";
         }
+        html += "</div>";
         var popup = new mbx.Popup({offset: [0, -15] })
             .setLngLat(point.geometry.coordinates)
             .setHTML(html)
@@ -99,7 +106,7 @@ var FiveNineNorthMap = function(mbx, options) {
             "text-size": {
                 "base": 1,
                 "stops": [
-                    [1,6], [3,8], [6,12], [14,20]
+                    [1,8], [3,9], [6,14], [14,22]
                 ]
             },
             'text-padding': 1,
@@ -110,7 +117,7 @@ var FiveNineNorthMap = function(mbx, options) {
             'text-rotate': 0,
             'text-letter-spacing': 0.2,
             'icon-padding': 1,
-            'text-max-width': 18
+            'text-max-width': 10
         };
         
         for (var opt in layoutOptions) {
@@ -139,8 +146,6 @@ var FiveNineNorthMap = function(mbx, options) {
     }
         
     var addPoints = function(map, data) {
-        var italicFont = ["Open Sans Bold Italic", "Arial Unicode MS Regular"];
-        var regularFont = ["Open Sans Bold", "Arial Unicode MS Regular"];
         
         addPointLayer(map, data, 'primary-port', {'text-font': regularFont, 'text-transform': 'uppercase', "icon-image": "port-8"});
         addPointLayer(map, data, 'secondary-port', {'text-font': regularFont, "icon-image": "port-8"});
@@ -166,10 +171,37 @@ var FiveNineNorthMap = function(mbx, options) {
                 'line-cap': 'round'
             },
             'paint': {
-                'line-color': '#e7cc0b',
-                'line-width': 4
+                'line-color': '#fad117',
+                'line-width': 2
             }
         });
+        map.addLayer({
+            'id': 'fnnLineLabelLayer',
+            'type': 'symbol',
+            'source': 'fnnLines',
+            'layout': {
+                'text-field': '{title}',
+                'symbol-placement': 'line',
+                'text-max-angle': 25,
+                'visibility': 'visible',
+                'text-anchor': 'bottom-left',
+                'text-padding': 5,
+                'text-font': italicFont,
+                'text-letter-spacing': 0.2,
+                "text-size": {
+                    "base": 1,
+                    "stops": [
+                        [1,8], [3,9], [6,14], [14,22]
+                    ]
+                }
+            },
+            'paint': {
+                'text-color': '#ffffff',
+                'text-halo-color': 'hsl(206, 50%, 40%)',
+                'text-halo-width': 1
+            }
+        });
+            
     };
 
     var getBounds = function(data) {
