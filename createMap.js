@@ -75,7 +75,7 @@ var FiveNineNorthMap = function(mbx, options) {
         if(links.length) {
             html += "<ul>";
             links.map(function(l) {
-                html += '<li><h3><a href="' + l[1] + '" target="_blank">' + l[0] + '</a></h3></li>';
+                html += '<li><h3 style="color: #006891"><a href="' + l[1] + '" target="_blank">' + l[0] + '</a></h3></li>';
             });
             html += "</ul>";
         }
