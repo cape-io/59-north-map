@@ -1,0 +1,23 @@
+{
+  "extends": ["airbnb"],
+  "env": {
+    "browser": false
+  },
+  "plugins": ["react", "import"],
+  "rules": {
+    "comma-dangle": [2, "always-multiline"],
+    "id-length": [2, {
+      "min": 3,
+      "max": 30,
+      "properties": "never",
+      "exceptions": ["id"]
+    }],
+    "import/no-named-as-default": 0,
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+    "no-console": 1,
+    "no-alert": 1,
+    "no-trailing-spaces": 2,
+    "semi": [ 2, "never" ]
+  }
+}
