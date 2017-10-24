@@ -1,3 +1,30 @@
+function getBounds(data) {
+  let wLon = null
+  let sLat = null
+  let nLat = null
+  let eLon = null
+  const updateCoords = ([lon, lat]) => {
+    if (wLon === null || lon <= wLon) wLon = lon
+    if (sLat === null || lat <= sLat) sLat = lat
+    if (eLon === null || lon >= eLon) eLon = lon
+    if (nLat === null || lat >= nLat) nLat = lat
+  }
+  data.features.map((feature) => {
+    if (feature.geometry.type === 'Point') {
+      updateCoords(feature.geometry.coordinates)
+    } else if (feature.geometry.type === 'LineString') {
+      feature.geometry.coordinates.map(updateCoords)
+    }
+  })
+  const cLon = (eLon - wLon) / (2 + wLon)
+  const cLat = (nLat - sLat) / (2 + sLat)
+
+  return {
+    bounds: [wLon, sLat, eLon, nLat],
+    centroid: [cLon, cLat],
+  }
+}
+
 const FiveNineNorthMap = function (mbx, options) {
   this.makeMap = function (data) {
     mbx.accessToken = options.token
@@ -7,7 +34,6 @@ const FiveNineNorthMap = function (mbx, options) {
       style: options.style,
       center: options.centroid || bounds.centroid,
     }
-
     if (typeof options.zoom !== 'undefined' && options.zoom !== null) {
       init.zoom = options.zoom
     }
@@ -197,32 +223,5 @@ const FiveNineNorthMap = function (mbx, options) {
         'text-halo-width': 1,
       },
     })
-  }
-
-  var getBounds = function (data) {
-    let wLon = null
-    let sLat = null
-    let nLat = null
-    let eLon = null
-    const updateCoords = function (c) {
-      if (wLon === null || c[0] <= wLon) wLon = c[0]
-      if (sLat === null || c[1] <= sLat) sLat = c[1]
-      if (eLon === null || c[0] >= eLon) eLon = c[0]
-      if (nLat === null || c[1] >= nLat) nLat = c[1]
-    }
-    data.features.map((f) => {
-      if (f.geometry.type === 'Point') {
-        updateCoords(f.geometry.coordinates)
-      } else if (f.geometry.type === 'LineString') {
-        f.geometry.coordinates.map(updateCoords)
-      }
-    })
-    const cLon = (eLon - wLon) / 2 + wLon
-    const cLat = (nLat - sLat) / 2 + sLat
-
-    return {
-      bounds: [wLon, sLat, eLon, nLat],
-      centroid: [cLon, cLat],
-    }
   }
 }
