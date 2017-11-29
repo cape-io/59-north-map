@@ -25,7 +25,7 @@ function getBounds(data) {
   }
 }
 
-const FiveNineNorthMap = function (mbx, options) {
+function FiveNineNorthMap(mbx, options) {
   this.makeMap = function (data) {
     mbx.accessToken = options.token
     const bounds = getBounds(data)

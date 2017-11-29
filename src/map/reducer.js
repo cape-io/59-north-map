@@ -6,7 +6,12 @@ const defaultState = {
   viewport: {
     width: 600,
     height: 400,
-    zoom: 9,
+    zoom: 1,
+    latitude: 0,
+    longitude: 0,
+    bearing: 0,
+    isDragging: false,
+    startDragLngLat: undefined,
   },
   settings: {},
 }
