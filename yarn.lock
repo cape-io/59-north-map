@@ -369,6 +369,13 @@ aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
+axios@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
+  dependencies:
+    follow-redirects "^1.2.5"
+    is-buffer "^1.1.5"
+
 axobject-query@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-0.1.0.tgz#62f59dbc59c9f9242759ca349960e7a2fe3c36c0"
@@ -1496,7 +1503,7 @@ caniuse-lite@^1.0.30000748, caniuse-lite@^1.0.30000770:
   version "1.0.30000770"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000770.tgz#bc8e7f50b073273390db6ab357378909a14e9bdb"
 
-cape-lodash@^1.13.1, cape-lodash@^1.8.0:
+cape-lodash@^1.13.1, cape-lodash@^1.7.0, cape-lodash@^1.8.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/cape-lodash/-/cape-lodash-1.13.1.tgz#58e0e181bb6dfb7e80bc328e997dbf2b265d5278"
   dependencies:
@@ -1509,6 +1516,13 @@ cape-redux@^3.1.0, cape-redux@^3.2.0:
     cape-lodash "^1.8.0"
     lodash "^4.17.2"
     redux "^3.6.0"
+
+cape-select@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/cape-select/-/cape-select-2.4.0.tgz#c4682a65e9b4c3c57bdaa8ad2e8e6012fa963c5f"
+  dependencies:
+    cape-lodash "^1.7.0"
+    lodash "^4.17.2"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -3024,6 +3038,12 @@ flow-remove-types@^1.1.2:
   dependencies:
     babylon "^6.15.0"
     vlq "^0.2.1"
+
+follow-redirects@^1.2.5:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.2.6.tgz#4dcdc7e4ab3dd6765a97ff89c3b4c258117c79bf"
+  dependencies:
+    debug "^3.1.0"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -6036,6 +6056,10 @@ reduce-function-call@^1.0.1:
   resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
+
+redux-axios-middleware@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/redux-axios-middleware/-/redux-axios-middleware-4.0.0.tgz#81951c3d9adce6f83ef892fd1568571cebe4a336"
 
 redux-devtools-extension@^2.13.2:
   version "2.13.2"
