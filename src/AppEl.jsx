@@ -19,8 +19,6 @@ function App(props) {
     lineColor: [255, 0, 0],
     lineWidthMinPixels: 2,
     wireframe: true,
-    getLineColor: () => [255, 0, 0],
-    getFillColor: () => [255, 0, 0, 0],
     pickable: true,
   })
   return (

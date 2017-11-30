@@ -1,8 +1,9 @@
 import { createReducer } from 'cape-redux'
 import { setKey } from 'cape-lodash'
-import { VIEWPORT_CHANGE } from './actions'
+import { GOT_DATA, VIEWPORT_CHANGE } from './actions'
 
 const defaultState = {
+  data: {},
   viewport: {
     width: 600,
     height: 400,
@@ -16,8 +17,10 @@ const defaultState = {
   settings: {},
 }
 
+const changeData = (state, { data }) => ({ ...state, data })
 const changeViewport = setKey('viewport')
 export const reducers = {
+  [GOT_DATA]: changeData,
   [VIEWPORT_CHANGE]: changeViewport,
 }
 export default createReducer(reducers, defaultState)
