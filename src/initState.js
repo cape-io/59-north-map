@@ -26,9 +26,7 @@ export default {
       minLatitude: -85.05113,
     },
     settings: {
-      // 'mapbox://styles/kaicurry/cj8zxu6rneguv2ss9fuzutfvk',
       mapStyle: 'mapbox://styles/59northltd/cj81eok788lt82rt5tt8k383n',
-      // mapboxApiAccessToken: 'pk.eyJ1Ijoia2FpY3VycnkiLCJhIjoiY2o4enhuOTl2MG0xejJxbzRmMjVxY3RrOCJ9.DzeTwpSzvy-zWbjCpj8ROQ',
       mapboxApiAccessToken: 'pk.eyJ1IjoiNTlub3J0aGx0ZCIsImEiOiJjajFsMG9nYTYwMDBvMnFtaDR0djl2azZoIn0.ZPoadqCb8AWQ8B4GSm0fzA',
     },
   },
