@@ -10,6 +10,16 @@ Open /src/initState.js and look for `datasetId`, `username`, `mapStyle`, `mapbox
 
 Click on **Home** in the left navigation menu, then click on **My access tokens**. There should be a Default Public Token. If there is, make a note of it. If there is not click **Create a new token**. Make sure all the checkmarks are checked in the **Public Scopes** section. This token added as the value to `mapboxApiAccessToken` within `/src/initState.js`.
 
+### Airtable Integration
+
+The **Isbjorn Passages** and **Passage Season** seasons are available to the app. The **Leg ID** column is used to combine with each geoJson `LineString` created in Mapbox Studio.
+
+Within Mapbox Studio click on the various legs and add a Field with the name of `legId` and value of the Leg ID column in Airtable. “legId” is used instead of “Leg ID” because it’s cleaner/easier to use within Javascript.
+
+The only LineString Field used will be the legId since everything else should be in Airtable.
+
+A string template builds the title field based on other Airtable fields from the leg.
+
 ## Dev Info
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
