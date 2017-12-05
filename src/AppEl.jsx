@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactMapGL from 'react-map-gl'
 import DeckGL, { GeoJsonLayer } from 'deck.gl'
+import LegList from './LegList'
 
 function App(props) {
   const {
-    data, handleViewportChange, viewport, mapStyle, mapboxApiAccessToken,
+    data, handleViewportChange, legs, viewport, mapStyle, mapboxApiAccessToken,
   } = props
   const layer = new GeoJsonLayer({
     id: 'geojson-layer',
@@ -31,12 +32,14 @@ function App(props) {
       >
         <DeckGL {...viewport} layers={[layer]} />
       </ReactMapGL>
+      <LegList legs={legs} />
     </div>
   )
 }
 App.propTypes = {
   data: PropTypes.object.isRequired,
   handleViewportChange: PropTypes.func.isRequired,
+  legs: PropTypes.array.isRequired,
   viewport: PropTypes.shape({
     height: PropTypes.number.isRequired,
     latitude: PropTypes.number.isRequired,
