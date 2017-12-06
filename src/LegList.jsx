@@ -5,8 +5,8 @@ import { map } from 'lodash'
 function LegList({ legs }) {
   return (
     <ul>
-      { map(legs, ({ id, properties: { title, legId } }) => (
-        <li key={id}>{legId} - {title}</li>
+      { map(legs, ({ id, properties: { title, title2 } }) => (
+        <li key={id}>{title2} - {title}</li>
       ))}
     </ul>
   )
